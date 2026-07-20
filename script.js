@@ -30,10 +30,12 @@ form.addEventListener('submit', (event) => {
   event.preventDefault();
   const data = new FormData(form);
   const selectedEvents = data.getAll('events');
-  if (!selectedEvents.length) {
+  const sundayChoice = data.get('sunday');
+  if (!selectedEvents.length && !sundayChoice) {
     status.textContent = 'Please select at least one part of the celebration.';
     return;
   }
+  if (sundayChoice) selectedEvents.push(sundayChoice);
   const subject = encodeURIComponent(`Wedding RSVP — ${data.get('name')}`);
   const body = encodeURIComponent([
     `Name: ${data.get('name')}`,
@@ -44,7 +46,6 @@ form.addEventListener('submit', (event) => {
     '',
     `Dietary requirements / note: ${data.get('message') || 'None'}`
   ].join('\n'));
-  // IMPORTANT: replace this placeholder with your wedding RSVP email.
-  window.location.href = `mailto:YOUR_EMAIL@example.com?subject=${subject}&body=${body}`;
+  window.location.href = `mailto:anaisetharoldgrosjean@gmail.com?subject=${subject}&body=${body}`;
   status.textContent = 'Your email app should open with the RSVP ready to send.';
 });
