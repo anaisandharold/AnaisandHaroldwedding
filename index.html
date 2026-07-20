@@ -21,7 +21,14 @@
       <div class="opening-monogram">A <i>&</i> H</div>
       <h1>A Winter Premiere</h1>
       <p>Brussels · 15–16 January 2027</p>
-      <button class="button button-light" id="open-curtain" type="button">Open the invitation</button>
+      <form class="access-form" id="access-form">
+        <label for="access-code">Invitation code</label>
+        <div class="access-row">
+          <input id="access-code" name="access-code" type="text" autocomplete="off" spellcheck="false" placeholder="Enter your code" required>
+          <button class="button button-light" type="submit">Open the invitation</button>
+        </div>
+        <p id="access-status" class="access-status" role="status"></p>
+      </form>
     </div>
     <div class="opening-curtain opening-left" aria-hidden="true"></div>
     <div class="opening-curtain opening-right" aria-hidden="true"></div>
@@ -32,7 +39,6 @@
     <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <nav id="site-nav" class="site-nav" aria-label="Main navigation">
       <a href="#programme">Programme</a>
-      <a href="#about">About us</a>
       <a href="#venues">Brussels</a>
       <a href="#rsvp">RSVP</a>
       <a href="#practical">Practical</a>
@@ -49,7 +55,7 @@
         <p class="names">Anaïs <span>&</span> Harold</p>
         <div class="ornament" aria-hidden="true">✦</div>
         <p class="date">15–16 January 2027 · Brussels</p>
-        <p class="intro">A winter weekend in Brussels: ceremony, reception, dinner, dancing and a deliberately late lunch the next day.</p>
+        <p class="intro access-sensitive" data-full-text="A winter weekend in Brussels: ceremony, reception, dinner, dancing and a deliberately late lunch the next day." data-limited-text="A winter evening in Brussels: reception and dancing at the Théâtre du Vaudeville.">A winter weekend in Brussels: ceremony, reception, dinner, dancing and a deliberately late lunch the next day.</p>
         <a class="button" href="#rsvp">Reserve your seat</a>
       </div>
       <a class="scroll-cue" href="#programme">The curtain rises <span>↓</span></a>
@@ -69,7 +75,7 @@
         <article class="programme-day reveal">
           <div class="day-badge"><span>Friday</span><strong>15</strong><span>January</span></div>
           <div class="acts-list">
-            <div class="programme-item">
+            <div class="programme-item full-only" data-access="full">
               <p class="scene">Act I · Around 2:00 PM</p>
               <h3>The Ceremony</h3>
               <p>Église Saint-Jacques-sur-Coudenberg</p>
@@ -81,16 +87,22 @@
               <p>Galeries Royales Saint-Hubert</p>
               <em>A glass raised beneath the historic glass roof.</em>
             </div>
-            <div class="programme-item">
+            <div class="programme-item full-only" data-access="full">
               <p class="scene">Act III · Evening</p>
-              <h3>Dinner & Party</h3>
+              <h3>Dinner</h3>
               <p>Théâtre du Vaudeville</p>
-              <em>Dinner on stage, dancing until the critics go home.</em>
+              <em>Dinner on stage before the final act.</em>
+            </div>
+            <div class="programme-item">
+              <p class="scene">Final Act · Late evening</p>
+              <h3>Party</h3>
+              <p>Théâtre du Vaudeville</p>
+              <em>Dancing until the critics go home.</em>
             </div>
           </div>
         </article>
 
-        <article class="programme-day reveal">
+        <article class="programme-day reveal full-only" data-access="full">
           <div class="day-badge"><span>Saturday</span><strong>16</strong><span>January</span></div>
           <div class="acts-list single">
             <div class="programme-item">
@@ -104,35 +116,22 @@
       </div>
     </section>
 
-    <section id="about" class="section story about-section">
-      <div class="section-heading reveal">
-        <p class="eyebrow">About us</p>
-        <h2>Belgian, international,<br>now based in Brussels</h2>
-      </div>
-
-      <div class="cast-grid compact-cast">
-        <article class="cast-card reveal">
-          <span class="card-number">H</span>
-          <p class="role">Harold Grosjean</p>
-          <h3>Ten years in the UK</h3>
-          <p>Nottingham, London and Oxford, before returning to Belgium.</p>
-        </article>
-        <article class="cast-card reveal">
-          <span class="card-number">A</span>
-          <p class="role">Anaïs de Bergeyck</p>
-          <h3>A few European chapters</h3>
-          <p>Bologna, Lisbon, Warsaw, Stockholm and Paris, with Buenos Aires and Saint Petersburg along the way.</p>
-        </article>
-      </div>
-
-      <article class="spring-card reveal">
-        <div class="dog-portrait" aria-hidden="true"><span>🐾</span></div>
-        <div>
-          <p class="role">Also living in Brussels</p>
-          <h3>Spring</h3>
-          <p>Our blue roan cocker spaniel and enthusiastic household representative.</p>
+    <section class="section spring-section">
+      <div class="spring-feature reveal">
+        <div class="spring-drawing" aria-hidden="true">
+          <svg viewBox="0 0 420 300" role="img">
+            <path class="dog-fill" d="M130 103c-25-18-55-2-59 34-4 35 15 69 46 65 17-2 28-16 33-31 18 11 37 14 60 12 25-2 46-10 60-23 8 18 24 31 43 29 29-3 42-37 33-68-8-30-37-42-60-23-17-22-43-35-76-35-35 0-63 14-80 40z"/>
+            <path class="dog-line" d="M150 171c-7 41 7 70 33 83m87-94c5 42-7 73-33 94M185 176c-3 22-2 48 2 78m45-78c5 22 5 49 1 78M169 117c7-10 18-15 32-15s25 5 33 15M184 138c9 7 27 7 36 0M201 145v18m-17 0c9 8 25 8 34 0"/>
+            <ellipse cx="174" cy="126" rx="5" ry="7"/><ellipse cx="228" cy="126" rx="5" ry="7"/>
+            <path class="dog-speckle" d="M112 122l12 8m-19 10l17 4m180-25l-13 10m21 7l-18 5M159 88l10 8m49-13l-8 12m-10-22l2 12"/>
+          </svg>
         </div>
-      </article>
+        <div>
+          <p class="eyebrow">Household representative</p>
+          <h2>Spring</h2>
+          <p>Our blue roan cocker spaniel. Present in spirit, and possibly in several of your best memories with us.</p>
+        </div>
+      </div>
     </section>
 
     <section id="venues" class="section venues">
@@ -143,24 +142,47 @@
       </div>
 
       <div class="venue-cards">
-        <article class="venue-card reveal">
+        <article class="venue-card reveal full-only" data-access="full">
           <div class="venue-illustration church-art" aria-hidden="true">
-            <svg viewBox="0 0 360 180" role="img"><path d="M34 154h292M80 154V78h200v76M105 78V52h150v26M126 52V29h108v23M146 154V96h68v58M170 96V70h20v26M61 154V97h19M280 154V97h19M52 97h37M271 97h37"/><path d="M180 29V12M171 20h18"/></svg>
+            <svg viewBox="0 0 420 240" role="img" aria-label="Drawing of Saint-Jacques-sur-Coudenberg church">
+              <path class="sketch-fill" d="M58 205h304V101H58zM96 101h228L295 76H125zM141 76h138l-20-35h-98z"/>
+              <path d="M42 205h336M58 205V101h304v104M96 205V101M324 205V101M125 101V76h170v25M161 76V41h98v35M210 41V17m-12 12h24M174 205v-65c0-22 16-38 36-38s36 16 36 38v65M72 127h272M112 127v78m184-78v78M139 127v78m142-78v78"/>
+              <path d="M79 90l18-18 18 18m190 0l18-18 18 18M185 61h50"/>
+            </svg>
           </div>
           <div class="venue-copy"><p class="role">15 January · Ceremony · 2:00 PM</p><h3>Église Saint-Jacques-sur-Coudenberg</h3><p>Place Royale, Brussels</p><a href="https://www.google.com/maps/search/?api=1&query=Eglise+Saint-Jacques-sur-Coudenberg+Brussels" target="_blank" rel="noopener">Open map ↗</a></div>
         </article>
         <article class="venue-card reveal">
           <div class="venue-illustration galleries-art" aria-hidden="true">
-            <svg viewBox="0 0 360 180" role="img"><path d="M28 154h304M46 154V62h268v92M70 154V80h220v74M70 80c30-42 190-42 220 0M100 154V91M140 154V86M180 154V84M220 154V86M260 154V91"/><path d="M46 62h268M91 52h178"/></svg>
+            <svg viewBox="0 0 420 240" role="img" aria-label="Drawing of the Galeries Royales Saint-Hubert">
+              <path class="sketch-fill" d="M42 206h336V92H42z"/>
+              <path d="M27 206h366M42 206V92h336v114M42 92C88 16 332 16 378 92M72 206V108m55 98V75m56 131V57m54 149V57m56 149V75m55 131V108M72 108h276M97 83h226M126 66h168M155 52h110"/>
+              <path d="M98 206v-66h58v66m108 0v-66h58v66M176 206v-92h68v92M210 114V49"/>
+              <circle cx="210" cy="91" r="12"/>
+            </svg>
           </div>
-          <div class="venue-copy"><p class="role">15 January · Reception, dinner & party</p><h3>Galeries Royales Saint-Hubert<br><small>Théâtre du Vaudeville</small></h3><p>Brussels city centre</p><a href="https://www.google.com/maps/search/?api=1&query=Theatre+du+Vaudeville+Brussels" target="_blank" rel="noopener">Open map ↗</a></div>
+          <div class="venue-copy"><p class="role access-sensitive" data-full-text="15 January · Reception, dinner & party" data-limited-text="15 January · Reception & party">15 January · Reception, dinner & party</p><h3>Galeries Royales Saint-Hubert<br><small>Théâtre du Vaudeville</small></h3><p>Brussels city centre</p><a href="https://www.google.com/maps/search/?api=1&query=Theatre+du+Vaudeville+Brussels" target="_blank" rel="noopener">Open map ↗</a></div>
         </article>
-        <article class="venue-card reveal">
+        <article class="venue-card reveal full-only" data-access="full">
           <div class="venue-illustration flore-art" aria-hidden="true">
-            <svg viewBox="0 0 360 180" role="img"><path d="M34 154h292M112 154v-55h136v55M92 99h176M126 99V76h108v23M146 154v-34h68v34M60 154c0-28 15-49 34-49s34 21 34 49M232 154c0-34 18-61 40-61s40 27 40 61"/><path d="M76 105V70M60 82h32M272 93V53M252 69h40"/></svg>
+            <svg viewBox="0 0 420 240" role="img" aria-label="Drawing of Le Flore in the Bois de la Cambre">
+              <path class="sketch-fill" d="M112 205h196V111H112z"/>
+              <path d="M30 205h360M112 205v-94h196v94M91 111h238M132 111V82h156v29M151 205v-58h118v58M210 147v58M58 205c-5-42 12-77 39-79 27-2 47 34 43 79m140 0c-7-53 13-96 47-99 34-3 59 42 53 99M83 126V76m-23 21h48m219 9V53m-28 24h56"/>
+              <path d="M124 82h172M165 82c8-21 21-32 45-32s38 11 46 32"/>
+            </svg>
           </div>
           <div class="venue-copy"><p class="role">16 January · Late lunch · 1:30 PM</p><h3>Le Flore</h3><p>Bois de la Cambre, Brussels</p><a href="https://www.google.com/maps/search/?api=1&query=Le+Flore+Bois+de+la+Cambre+Brussels" target="_blank" rel="noopener">Open map ↗</a></div>
         </article>
+      </div>
+    </section>
+
+    <section class="belgian-interlude" aria-label="A few Belgian details">
+      <div class="belgian-icons reveal">
+        <div><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="18" r="7"/><circle cx="28" cy="50" r="7"/><circle cx="92" cy="50" r="7"/><circle cx="43" cy="92" r="7"/><circle cx="77" cy="92" r="7"/><path d="M60 25L31 44m58 0L60 25M33 56l9 29m36 0l9-29M49 92h22M34 52h52M60 25v65"/></svg><span>Atomium</span></div>
+        <div><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M25 28h70l-8 67H33zM35 28l7-13m8 13l4-15m16 15l-3-15m17 15l-7-13"/><path d="M40 43h40M38 57h44M36 71h48"/></svg><span>Frites</span></div>
+        <div><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="22" y="22" width="76" height="76" rx="8"/><path d="M22 47h76M22 72h76M47 22v76M72 22v76"/><circle cx="35" cy="35" r="3"/><circle cx="60" cy="60" r="3"/><circle cx="85" cy="85" r="3"/></svg><span>Gaufre</span></div>
+        <div><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M35 25h43v67H35zM78 39h10c14 0 14 27 0 27H78M41 34h31M41 44h31"/><path d="M42 54c9 5 20 5 29 0v30H42z"/></svg><span>Bière belge</span></div>
+        <div><svg viewBox="0 0 120 120" aria-hidden="true"><path d="M24 29h72v52H61L45 96V81H24z"/><path d="M39 50h42M39 62h28"/></svg><span>Une bulle, évidemment</span></div>
       </div>
     </section>
 
@@ -168,7 +190,7 @@
       <div class="ticket reveal">
         <div class="ticket-stub">
           <p class="eyebrow">Admit One</p>
-          <div class="ticket-date"><strong>15–16</strong><span>JAN<br>2027</span></div>
+          <div class="ticket-date"><strong class="access-sensitive" data-full-text="15–16" data-limited-text="15">15–16</strong><span>JAN<br>2027</span></div>
           <p>BRUSSELS</p>
           <div class="barcode" aria-hidden="true"></div>
           <small>A&H · WINTER PREMIERE</small>
@@ -177,7 +199,7 @@
           <div class="ticket-heading">
             <p class="eyebrow">Your Ticket</p>
             <h2>Reserve your seat</h2>
-            <p>Please tell us which parts of the celebration you will attend.</p>
+            <p class="access-sensitive" data-full-text="Please tell us which parts of the celebration you will attend." data-limited-text="Please tell us whether you will join us for the reception and party.">Please tell us which parts of the celebration you will attend.</p>
           </div>
           <form id="rsvp-form" class="rsvp-form">
             <div class="form-row">
@@ -185,18 +207,25 @@
               <label>Your email<input type="email" name="email" required autocomplete="email"></label>
             </div>
             <fieldset>
-              <legend>I/we will attend</legend>
-              <label class="check"><input type="checkbox" name="events" value="Ceremony on 15 January"> <span>Ceremony</span></label>
-              <label class="check"><input type="checkbox" name="events" value="Reception on 15 January"> <span>Reception</span></label>
-              <label class="check"><input type="checkbox" name="events" value="Dinner on 15 January"> <span>Dinner</span></label>
-              <label class="check"><input type="checkbox" name="events" value="Party on 15 January"> <span>Party</span></label>
-              </fieldset>
-            <fieldset class="sunday-choice">
-              <legend>On Saturday 16 January at 1:30 PM</legend>
-              <label class="check"><input type="radio" name="sunday" value="Lunch at Le Flore"> <span>I/we will stay for lunch</span></label>
-              <label class="check"><input type="radio" name="sunday" value="Drinks only at Le Flore"> <span>I/we will come by for a drink</span></label>
+              <legend>Friday 15 January — select all that apply</legend>
+              <label class="check full-only" data-access="full"><input type="checkbox" name="day15" value="Ceremony on 15 January" data-group="day15"> <span>Ceremony</span></label>
+              <label class="check"><input type="checkbox" name="day15" value="Reception on 15 January" data-group="day15"> <span>Reception</span></label>
+              <label class="check full-only" data-access="full"><input type="checkbox" name="day15" value="Dinner on 15 January" data-group="day15"> <span>Dinner</span></label>
+              <label class="check"><input type="checkbox" name="day15" value="Party on 15 January" data-group="day15"> <span>Party</span></label>
+              <label class="check decline"><input type="checkbox" name="day15" value="Unfortunately not attending on 15 January" data-group="day15" data-decline> <span>Unfortunately, I/we cannot attend on the 15th</span></label>
             </fieldset>
-            <label>Dietary requirements or a note<textarea name="message" rows="3"></textarea></label>
+            <fieldset class="full-only" data-access="full">
+              <legend>Saturday 16 January at 1:30 PM — select all that apply</legend>
+              <label class="check"><input type="checkbox" name="day16" value="Lunch at Le Flore" data-group="day16"> <span>I/we will stay for lunch</span></label>
+              <label class="check"><input type="checkbox" name="day16" value="Drinks at Le Flore" data-group="day16"> <span>I/we will come by for a drink</span></label>
+              <label class="check decline"><input type="checkbox" name="day16" value="Unfortunately not attending on 16 January" data-group="day16" data-decline> <span>Unfortunately, I/we cannot attend on the 16th</span></label>
+            </fieldset>
+            <fieldset class="diet-choice full-only" data-access="full">
+              <legend>Meal preference</legend>
+              <label class="check"><input type="radio" name="diet" value="Non-vegetarian" required> <span>Non-vegetarian</span></label>
+              <label class="check"><input type="radio" name="diet" value="Vegetarian" required> <span>Vegetarian</span></label>
+            </fieldset>
+            <label>Share a nice memory with Harold, Anaïs, or both <span class="label-note">(bonus if Spring is in it)</span><textarea name="message" rows="4"></textarea></label>
             <button class="button" type="submit">Send RSVP</button>
             <p id="form-status" class="form-status" role="status"></p>
           </form>
@@ -221,10 +250,16 @@
         <h2>Before the curtain rises</h2>
       </div>
       <div class="accordion reveal">
-        <details><summary>What should we wear?</summary><p>Festive winter elegance. Think velvet, jewel tones, polished shoes and something warm for travelling between venues.</p></details>
-        <details><summary>Information for international guests</summary><p>Hotel, train and airport recommendations will be added here once arrangements are confirmed.</p></details>
-        <details><summary>Can we bring children?</summary><p>Replace this sentence with your preferred wording.</p></details>
-        <details><summary>When should we RSVP?</summary><p>Add your RSVP deadline here.</p></details>
+        <details open><summary>What should we wear?</summary><p><strong>15 January:</strong> jackets are preferred, and no hats for women. Bring your best winter dress — festive, warm and ready for the theatre. <strong>16 January:</strong> relaxed and comfortable.</p></details>
+        <details><summary>Where should we stay?</summary>
+          <div class="hotel-list">
+            <article><h3>Hotel des Galeries</h3><p>Inside the Galeries Royales Saint-Hubert — the closest and most atmospheric option.</p><a href="https://www.google.com/maps/search/?api=1&query=Hotel+des+Galeries+Brussels" target="_blank" rel="noopener">View location ↗</a></article>
+            <article><h3>Hotel Hubert Grand Place</h3><p>A modern central hotel, a short walk from the Galeries and Brussels-Central station.</p><a href="https://www.google.com/maps/search/?api=1&query=Hotel+Hubert+Grand+Place+Brussels" target="_blank" rel="noopener">View location ↗</a></article>
+            <article><h3>Motel One Brussels</h3><p>Stylish, usually good value, and within walking distance of the ceremony and reception.</p><a href="https://www.google.com/maps/search/?api=1&query=Motel+One+Brussels" target="_blank" rel="noopener">View location ↗</a></article>
+          </div>
+          <p class="hotel-note">January rates can vary, so early booking is recommended.</p>
+        </details>
+        <details><summary>When should we RSVP?</summary><p>Please reply by <strong>30 November 2026</strong>.</p></details>
       </div>
     </section>
   </main>
