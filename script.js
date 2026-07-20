@@ -3,7 +3,6 @@ const accessForm = document.querySelector('#access-form');
 const accessInput = document.querySelector('#access-code');
 const accessStatus = document.querySelector('#access-status');
 
-// Invitation access levels. These are designed for guest-list filtering, not high-security authentication.
 const INVITATION_CODES = {
   PREMIERE2027: 'full',
   VAUDEVILLE2027: 'limited'
@@ -16,10 +15,11 @@ function applyAccess(level) {
   document.body.dataset.access = level;
 
   document.querySelectorAll('[data-access="full"]').forEach((element) => {
-    element.hidden = level !== 'full';
+    const hidden = level !== 'full';
+    element.hidden = hidden;
     element.querySelectorAll('input').forEach((input) => {
-      input.disabled = level !== 'full';
-      if (level !== 'full') input.checked = false;
+      input.disabled = hidden;
+      if (hidden) input.checked = false;
     });
   });
 
@@ -37,7 +37,7 @@ accessForm.addEventListener('submit', (event) => {
   const code = accessInput.value.trim().toUpperCase().replace(/\s+/g, '');
   const level = INVITATION_CODES[code];
   if (!level) {
-    accessStatus.textContent = 'That code is not recognised. Please check your invitation and try again.';
+    accessStatus.textContent = 'That code is not recognised. Please check your invitation.';
     accessInput.focus();
     return;
   }
@@ -46,33 +46,23 @@ accessForm.addEventListener('submit', (event) => {
 });
 
 const rememberedAccess = sessionStorage.getItem('weddingAccess');
-if (rememberedAccess === 'full' || rememberedAccess === 'limited') {
-  applyAccess(rememberedAccess);
-}
+if (rememberedAccess === 'full' || rememberedAccess === 'limited') applyAccess(rememberedAccess);
 
 const menuButton = document.querySelector('.menu-toggle');
 const nav = document.querySelector('.site-nav');
 menuButton.addEventListener('click', () => {
-  const isOpen = nav.classList.toggle('open');
-  menuButton.setAttribute('aria-expanded', String(isOpen));
+  const open = nav.classList.toggle('open');
+  menuButton.setAttribute('aria-expanded', String(open));
 });
 document.querySelectorAll('.site-nav a').forEach((link) => link.addEventListener('click', () => {
   nav.classList.remove('open');
   menuButton.setAttribute('aria-expanded', 'false');
 }));
 
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) entry.target.classList.add('visible');
-  });
-}, { threshold: 0.12 });
-document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
 document.querySelectorAll('input[data-group]').forEach((input) => {
   input.addEventListener('change', () => {
     if (!input.checked) return;
-    const group = input.dataset.group;
-    const peers = [...document.querySelectorAll(`input[data-group="${group}"]:not(:disabled)`)];
+    const peers = [...document.querySelectorAll(`input[data-group="${input.dataset.group}"]:not(:disabled)`)];
     if (input.hasAttribute('data-decline')) {
       peers.filter((peer) => peer !== input).forEach((peer) => { peer.checked = false; });
     } else {
@@ -90,16 +80,16 @@ form.addEventListener('submit', (event) => {
   const day16 = data.getAll('day16');
 
   if (!day15.length) {
-    status.textContent = 'Please select at least one answer for the 15th.';
+    status.textContent = 'Please select at least one answer for 15 January.';
     return;
   }
   if (accessLevel === 'full' && !day16.length) {
-    status.textContent = 'Please select at least one answer for the 16th.';
+    status.textContent = 'Please select at least one answer for 16 January.';
     return;
   }
 
   const lines = [
-    `Invitation type: ${accessLevel === 'full' ? 'Full weekend' : 'Reception & party'}`,
+    `Invitation type: ${accessLevel === 'full' ? 'Full weekend' : 'Church, reception & party'}`,
     `Name: ${data.get('name')}`,
     `Email: ${data.get('email')}`,
     '',
@@ -109,7 +99,7 @@ form.addEventListener('submit', (event) => {
 
   if (accessLevel === 'full') {
     lines.push('', 'Saturday 16 January:', ...day16.map((item) => `- ${item}`));
-    lines.push('', `Meal preference: ${data.get('diet')}`);
+    lines.push('', `Meal preference: ${data.get('diet') || 'Not specified'}`);
   }
 
   lines.push('', 'A nice memory:', data.get('message') || '—');
